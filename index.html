@@ -1,0 +1,678 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Navaneethan Portfolio</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#050505;
+color:white;
+overflow-x:hidden;
+}
+
+/* Particle network background */
+#bgCanvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+background:radial-gradient(circle at 50% 20%,#001a26,#050505 70%);
+}
+
+header, #welcome, #home, section, footer{
+position:relative;
+z-index:1;
+}
+
+
+/* Golden side borders */
+
+body::before,
+body::after{
+content:"";
+position:fixed;
+top:0;
+height:100%;
+width:6px;
+background:gold;
+z-index:9999;
+}
+
+body::before{left:0;}
+body::after{right:0;}
+
+
+/* Navbar */
+
+header{
+position:fixed;
+top:0;
+width:100%;
+height:75px;
+padding:0 8%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#000;
+border-bottom:2px solid #00eaff;
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#00eaff;
+text-shadow:0 0 15px #00eaff;
+}
+
+
+nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+}
+
+nav a:hover{
+color:#00eaff;
+}
+
+
+.menu{
+display:none;
+font-size:30px;
+color:#00eaff;
+cursor:pointer;
+background:none;
+border:none;
+}
+
+
+
+/* Welcome */
+
+#welcome{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:5000;
+animation:hide 3s forwards;
+}
+
+#welcome h1{
+color:#00eaff;
+font-size:45px;
+text-shadow:0 0 30px #00eaff;
+text-align:center;
+padding:0 20px;
+}
+
+@keyframes hide{
+0%,80%{
+opacity:1;
+}
+100%{
+opacity:0;
+visibility:hidden;
+}
+}
+
+
+
+/* Profile */
+
+#home{
+min-height:100vh;
+padding:120px 10%;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:60px;
+}
+
+
+.profile-img img{
+width:280px;
+height:280px;
+border-radius:50%;
+object-fit:cover;
+border:5px solid #00eaff;
+box-shadow:0 0 30px #00eaff,0 0 40px gold;
+background:#111;
+}
+
+
+.profile-text h1{
+font-size:55px;
+}
+
+.blue{
+color:#00eaff;
+}
+
+
+.typing{
+color:gold;
+font-size:28px;
+}
+
+
+.btn{
+display:inline-block;
+margin-top:25px;
+margin-right:10px;
+padding:12px 30px;
+border:2px solid #00eaff;
+border-radius:30px;
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+
+.btn:hover{
+background:#00eaff;
+color:black;
+box-shadow:0 0 25px #00eaff;
+}
+
+
+
+/* Sections */
+
+section{
+padding:100px 10%;
+}
+
+
+.title{
+text-align:center;
+font-size:40px;
+color:#00eaff;
+margin-bottom:40px;
+}
+
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+
+.card{
+background:rgba(17,17,17,0.85);
+padding:25px;
+border:1px solid #00eaff;
+border-radius:15px;
+transition:.4s;
+}
+
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px #00eaff;
+}
+
+
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.menu{
+display:block;
+}
+
+
+nav ul{
+position:absolute;
+top:75px;
+right:20px;
+background:#000;
+padding:20px;
+border:1px solid #00eaff;
+border-radius:10px;
+display:none;
+flex-direction:column;
+gap:16px;
+}
+
+
+nav ul.active{
+display:flex;
+}
+
+
+#home{
+flex-direction:column;
+text-align:center;
+padding-top:140px;
+}
+
+.profile-img img{
+width:200px;
+height:200px;
+}
+
+
+.profile-text h1{
+font-size:38px;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<div id="welcome">
+<h1>Welcome To My Portfolio</h1>
+</div>
+
+
+
+<header>
+
+<div class="logo">
+NAVANEETHAN
+</div>
+
+
+<button class="menu" id="menuBtn" onclick="toggleMenu()" aria-label="Toggle menu">
+☰
+</button>
+
+
+<nav>
+
+<ul id="nav">
+
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#education">Education</a></li>
+<li><a href="#contact">Contact</a></li>
+
+</ul>
+
+</nav>
+
+</header>
+
+
+
+
+<section id="home">
+
+
+<div class="profile-img">
+<img id="profileImg" src="pofile.jpg" alt="Navaneethan" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Navaneethan&background=002233&color=00eaff&size=280&bold=true&font-size=0.4';">
+</div>
+
+
+<div class="profile-text">
+
+<h1>
+Hi, I'm <span class="blue">Navaneethan</span>
+</h1>
+
+<h2>
+<span class="typing"></span>
+</h2>
+
+<p>
+Final Year B.E Computer Science Engineering Student.
+</p>
+
+
+<a class="btn" href="resume.pdf" download>
+Download Resume
+</a>
+
+<a class="btn" href="#contact">
+Contact
+</a>
+
+
+</div>
+
+</section>
+
+
+
+
+
+<section id="about">
+
+<h2 class="title">About Me</h2>
+
+<div class="card">
+
+<p>
+I am a Computer Science Engineering student interested in Web Development,
+Java Programming and Python. I enjoy building creative projects and learning
+new technologies.
+</p>
+
+</div>
+
+</section>
+
+
+
+
+
+<section id="skills">
+
+<h2 class="title">Skills</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>HTML</h3>
+<p>Web page structure</p>
+</div>
+
+<div class="card">
+<h3>CSS</h3>
+<p>Modern UI design</p>
+</div>
+
+<div class="card">
+<h3>Java</h3>
+<p>OOP basics</p>
+</div>
+
+<div class="card">
+<h3>Python</h3>
+<p>Basic programming</p>
+</div>
+
+</div>
+
+</section>
+
+
+
+
+
+<section id="projects">
+
+<h2 class="title">Projects</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Portfolio Website</h3>
+<p>Animated personal portfolio using HTML CSS JS.</p>
+</div>
+
+
+<div class="card">
+<h3>Water Level Sensor</h3>
+<p>IoT based refrigerator water level monitoring project.</p>
+</div>
+
+
+</div>
+
+</section>
+
+
+
+
+
+<section id="education">
+
+<h2 class="title">Education</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>B.E CSE</h3>
+<p>AVS Engineering College</p>
+</div>
+
+
+<div class="card">
+<h3>Diploma Mechanical</h3>
+<p>Rajaji Institute of Technology</p>
+</div>
+
+
+<div class="card">
+<h3>ITI Fitter</h3>
+<p>Government ITI Salem</p>
+</div>
+
+</div>
+
+</section>
+
+
+
+
+
+<section id="contact">
+
+<h2 class="title">Contact</h2>
+
+<div class="cards">
+
+
+<div class="card">
+<h3>Email</h3>
+<a class="btn" href="mailto:navaneeqe@gmail.com">
+Email
+</a>
+</div>
+
+
+<div class="card">
+<h3>WhatsApp</h3>
+<a class="btn" href="https://wa.me/919363404490">
+WhatsApp
+</a>
+</div>
+
+
+<div class="card">
+<h3>GitHub</h3>
+<a class="btn" href="https://github.com">
+GitHub
+</a>
+</div>
+
+
+<div class="card">
+<h3>LinkedIn</h3>
+<a class="btn" href="https://linkedin.com/in/navaneethan-s-801158396">
+LinkedIn
+</a>
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<script>
+
+const navList = document.getElementById("nav");
+const menuBtn = document.getElementById("menuBtn");
+
+function toggleMenu(){
+navList.classList.toggle("active");
+}
+
+/* Close mobile menu after tapping a link */
+navList.querySelectorAll("a").forEach(link=>{
+link.addEventListener("click", ()=>{
+navList.classList.remove("active");
+});
+});
+
+/* Close mobile menu if tapping outside it */
+document.addEventListener("click", (e)=>{
+if(window.innerWidth <= 768 &&
+navList.classList.contains("active") &&
+!navList.contains(e.target) &&
+!menuBtn.contains(e.target)){
+navList.classList.remove("active");
+}
+});
+
+/* Reset menu state when resizing back to desktop */
+window.addEventListener("resize", ()=>{
+if(window.innerWidth > 768){
+navList.classList.remove("active");
+}
+});
+
+
+
+let words=[
+"Web Developer",
+"Java Programmer",
+"Python Learner"
+];
+
+
+let i=0;
+let j=0;
+
+
+function typing(){
+
+if(j<words[i].length){
+
+document.querySelector(".typing").innerHTML += words[i][j];
+
+j++;
+
+setTimeout(typing,100);
+
+}
+
+else{
+
+setTimeout(()=>{
+
+document.querySelector(".typing").innerHTML="";
+
+j=0;
+
+i++;
+
+if(i>=words.length)
+i=0;
+
+typing();
+
+},1000);
+
+}
+
+}
+
+
+typing();
+
+
+/* Particle network background (visual only, sits behind everything) */
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+let w, h, particles;
+
+function resizeCanvas(){
+w = canvas.width = window.innerWidth;
+h = canvas.height = window.innerHeight;
+}
+
+function initParticles(){
+const count = Math.floor((w * h) / 16000);
+particles = Array.from({length: count}, () => ({
+x: Math.random() * w,
+y: Math.random() * h,
+vx: (Math.random() - 0.5) * 0.3,
+vy: (Math.random() - 0.5) * 0.3
+}));
+}
+
+function drawParticles(){
+ctx.clearRect(0, 0, w, h);
+ctx.fillStyle = "rgba(0,234,255,0.7)";
+for(const p of particles){
+p.x += p.vx;
+p.y += p.vy;
+if(p.x < 0 || p.x > w) p.vx *= -1;
+if(p.y < 0 || p.y > h) p.vy *= -1;
+ctx.beginPath();
+ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+ctx.fill();
+}
+for(let a = 0; a < particles.length; a++){
+for(let b = a + 1; b < particles.length; b++){
+const p1 = particles[a], p2 = particles[b];
+const dx = p1.x - p2.x, dy = p1.y - p2.y;
+const dist = Math.sqrt(dx*dx + dy*dy);
+if(dist < 130){
+ctx.strokeStyle = `rgba(0,234,255,${0.15 * (1 - dist/130)})`;
+ctx.lineWidth = 1;
+ctx.beginPath();
+ctx.moveTo(p1.x, p1.y);
+ctx.lineTo(p2.x, p2.y);
+ctx.stroke();
+}
+}
+}
+requestAnimationFrame(drawParticles);
+}
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+resizeCanvas();
+initParticles();
+if(!reduceMotion){ drawParticles(); }
+window.addEventListener("resize", ()=>{ resizeCanvas(); initParticles(); });
+
+</script>
+
+
+</body>
+</html>
+```
+
+Note: the GitHub button still links to `https://github.com` — send me your actual username whenever you have it and I'll drop it in.
